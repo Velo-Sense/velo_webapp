@@ -43,3 +43,12 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+.tabs{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #53c83b;
+  border-radius: 15px;
+}
+

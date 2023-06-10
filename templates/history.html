@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simple Bootstrap Login Form Example</title>
+    <link rel='stylesheet' href='https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'>
+    <!--import awsome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--import bootstrap framework-->
+    <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/style.css">
+    <!-- Demo CSS -->
+    <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/demo.css">
+
+</head>
+
+<body>
+    
+    <div class="dashboard_container">
+
+        <div class="dashboard-center-container">
+
+            <div class="container dashboard-shadow-container">
+                <h1>{{ name }}</h1>
+                <div class="row"><!--Main container-->
+                    <div class="col-md-2"><!--menu section-->
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#"><i
+                                        class="fa fa-tachometer fa-3x"></i></a>
+                                <!--Use proper awsome font as icon/refer orignal dashboard-->
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fa fa-calendar fa-3x"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fa fa-cogs fa-3x"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled"><i class="fa fa-user fa-3x"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!--History panel section-->
+                    <div class="col-md-10">
+                        <table width="100%">
+                            <tr class="tab">
+                                <td>Day No</td>
+                                <td>Date</td>
+                            </tr>
+
+                    
+                           <tr class="tabs">
+                                <td><a href="#">1</a></td>
+                                <td><a href="#">6/9/2023<br><br></a></td>
+                            </tr>
+
+                            <tr class="tabs">
+                                <td><a href="#">2</a></td>
+                                <td><a href="#">7/9/2023</a></td>
+                            </tr>
+                          
+                            <tr class="tabs">
+                                <td><a href="#">3</a></td>
+                                <td><a href="#">8/9/2023</a></td>
+                            </tr>
+
+                            <tr class="tabs">
+                                <td><a href="#">4</a></td>
+                                <td><a href="#">9/9/2023</a></td>
+                            </tr>
+                              </table>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

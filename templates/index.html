@@ -8,26 +8,84 @@
   <link rel='stylesheet' href='https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'>
 
   <!-- Demo CSS -->
-    <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/style.css">
-    <!-- Demo CSS -->
-    <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/demo.css">
+  <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/style.css">
+  <!-- Demo CSS -->
+  <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/demo.css">
 
 </head>
 
 <body>
+  <!---phone auth script-->
+  <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyDsseqXi1GvuH6M-P2QjlAvpe9KLN1bfUg",
+      authDomain: "167.71.198.111",
+      databaseURL: "https://fir-web-b823f.firebaseio.com",
+      projectId: "newauth-c9a4d",
+      storageBucket: "newauth-c9a4d.appspot.com",
+      messagingSenderId: "254214237623",
+      appId: "1:254214237623:web:5ade8301a7470fb6684c32"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  <script>
+    window.onload = function () {
+      render();
+    };
+    function render() {
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+      recaptchaVerifier.render();
+    }
+    function phoneAuth() {
+      //get the number
+      var number = document.getElementById('number').value;
+      //phone number authentication function of firebase
+      //it takes two parameter first one is number,,,second one is recaptcha
+      firebase.auth().signInWithPhoneNumber(number, window.recaptchaVerifier).then(function (confirmationResult) {
+        //s is in lowercase
+        window.confirmationResult = confirmationResult;
+        coderesult = confirmationResult;
+        console.log(coderesult);
+        alert("Message sent");
+      }).catch(function (error) {
+        alert(error.message);
+      });
+    }
+    function codeverify() {
+      var code = document.getElementById('verificationCode').value;
+      coderesult.confirm(code).then(function (result) {
+        alert("Successfully registered");
+        var user = result.user;
+        console.log(user);
+      }).catch(function (error) {
+        alert(error.message);
+      });
+    }
+  </script>
 
   <main>
     <article>
       <div class="wrapper">
         <form class="form-signin">
           <h2 class="form-signin-heading">Strive</h2>
-          <input type="text" class="form-control" name="username" placeholder="Email Address" required=""
-            autofocus="" />
-          <input type="password" class="form-control" name="password" placeholder="Password" required="" />
+          <!---phone auth starts here-->
+          <input type="text" class="form-control" id="number" placeholder="+94*********">
+          <div id="recaptcha-container"></div>
+          <button type="button" class="btn btn-lg btn-primary btn-block" onclick="phoneAuth();">SendCode</button>
+
+          <input type="text" class="form-control" id="verificationCode" placeholder="Enter verification code">
+          <button type="button" class="btn btn-lg btn-primary btn-block" onclick="codeverify();">Verify code</button>
+
+
+          <!---phone auth ends here-->
+
           <label class="checkbox">
             <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe">Remember me
           </label>
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+
         </form>
       </div>
     </article>
