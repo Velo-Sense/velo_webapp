@@ -56,12 +56,31 @@ def get_data(ss_id):
     }
     return jsonify(data)
 
-#
 
 #-By session date feeder--#
 
 
-#--Test Feeder------#
+ #feed json output on function to retrive subsessions (func 1)
+@app.route('/<user>/<date>/<session>')
+def retreivesubsessions(user,date,session):
+    query = dbf.retreivesubsessions(db,"history",user,date,session)
+    return jsonify(query) 
+    
+
+#feed json output on function to retrive only date by given id(func 3)
+@app.route('/<user>')
+def retreivedate(user):
+    query = dbf.retreivedate(db,"history",user)
+    return jsonify(query)
+    
+    
+#feed json output on  function to retrive only time by given date(func 4)
+@app.route('/<user>/<date>')
+def  retrieve_sessions_with_time(user,date):
+    query = dbf. retrieve_sessions_with_time(db,"history",user,date)
+    return jsonify(query)
+    
+ 
 @app.route('/testfeed')
 def get_test_data():
     data = {1:{1:{'alt':50,'text':80},2:{'alt':87,'text':7},3:{'alt':86,'text':7},4:{'alt':87,'text':7},5:{'alt':81,'text':78},6:{'alt':8,'text':76},7:{'alt':2,'text':76}}}

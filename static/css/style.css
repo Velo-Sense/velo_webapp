@@ -48,7 +48,10 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #53c83b;
+  background-color:  #428BCA;
   border-radius: 15px;
 }
-
+.separate{
+    border-collapse: separate;
+    border-spacing: 0 15px;
+}

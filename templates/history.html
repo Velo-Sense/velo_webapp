@@ -22,7 +22,7 @@
         <div class="dashboard-center-container">
 
             <div class="container dashboard-shadow-container">
-                <h1>{{ name }}</h1>
+                <h1 id="variable">http://167.71.198.111:5000/769246233</h1>
                 <div class="row"><!--Main container-->
                     <div class="col-md-2"><!--menu section-->
                         <ul class="nav flex-column">
@@ -44,41 +44,65 @@
                     </div>
 
                     <!--History panel section-->
+
                     <div class="col-md-10">
-                        <table width="100%">
-                            <tr class="tab">
+                        <table class="separate"width="80%">
+                            <tr class="tabs">
                                 <td>Day No</td>
                                 <td>Date</td>
                             </tr>
 
                     
                            <tr class="tabs">
-                                <td><a href="#">1</a></td>
-                                <td><a href="#">6/9/2023<br><br></a></td>
+                                <tbody class="tabs" id="dynamicContent"></tbody>
                             </tr>
-
-                            <tr class="tabs">
-                                <td><a href="#">2</a></td>
-                                <td><a href="#">7/9/2023</a></td>
-                            </tr>
-                          
-                            <tr class="tabs">
-                                <td><a href="#">3</a></td>
-                                <td><a href="#">8/9/2023</a></td>
-                            </tr>
-
-                            <tr class="tabs">
-                                <td><a href="#">4</a></td>
-                                <td><a href="#">9/9/2023</a></td>
-                            </tr>
-                              </table>
-
-                    </div>
+                            </table>
+                        </div>
+                    
                 </div>
 
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          async function fetchData() {
+            try {
+              const check = document.getElementById('variable');
+              if (!check) {
+                console.error('Element with ID "variable" not found.');
+                return;
+              }
+    
+              var headingValue = check.innerText;
+              console.log(headingValue);
+    
+              const response = await fetch(headingValue);
+              const jsonData = await response.json();
+              console.log(jsonData);
+    
+              const dynamicContentElement = document.getElementById('dynamicContent');
+    
+              for (const [key, value] of Object.entries(jsonData)) {
+                const row = document.createElement('tr');
+                const keyCell = document.createElement('td');
+                const valueCell = document.createElement('td');
+                keyCell.textContent = key;
+                valueCell.textContent = value;
+                row.appendChild(keyCell);
+                row.appendChild(valueCell);
+                dynamicContentElement.appendChild(row);
+              }
+            } catch (error) {
+              console.error('Error:', error);
+            }
+          }
+    
+          fetchData();
+        });
+      </script>
+   
 </body>
 
 </html>

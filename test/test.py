@@ -32,9 +32,9 @@ def get_data(ss_id):
     response_dict =query.val()
     return jsonify(response_dict)
 
-@app.route('/days')#retrive dates by userid
-def get_days():
-    query = dbf.retreivedate2(db,"history", "769246233")
+@app.route('/<user>/date')#retrive dates by userid
+def get_days(user):
+    query = dbf.retreivedate2(db,"history",user)
     dict_days = OrderedDict()
 
     for item in query:
@@ -54,23 +54,23 @@ def get_s_by_days():
     return jsonify(dict_days)
 
 #feed json output on function to retrive subsessions (func 1)
-@app.route('/subsessions')
-def retreivesubsessions():
-    query = dbf.retreivesubsessions(db,"history", "769246233", "20230523", "1")
+@app.route('/<user>/<date>/<session>')
+def retreivesubsessions(user,date,session):
+    query = dbf.retreivesubsessions(db,"history",user,date,session)
     return jsonify(query) 
     
 
 #feed json output on function to retrive only date by given id(func 3)
-@app.route('/date')
-def retreivedate():
-    query = dbf.retreivedate(db,"history", "769246233")
+@app.route('/<user>')
+def retreivedate(user):
+    query = dbf.retreivedate(db,"history",user)
     return jsonify(query)
     
     
 #feed json output on  function to retrive only time by given date(func 4)
-@app.route('/time')
-def  retrieve_sessions_with_time():
-    query = dbf. retrieve_sessions_with_time(db,"history", "769246233", "20230524")
+@app.route('/<user>/<date>')
+def  retrieve_sessions_with_time(user,date):
+    query = dbf. retrieve_sessions_with_time(db,"history",user,date)
     return jsonify(query)
    
 
