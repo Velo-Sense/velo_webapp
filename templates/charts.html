@@ -1,168 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Simple Bootstrap Login Form Example</title>
-    <link rel='stylesheet' href='https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'>
-    <!--import awsome-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!--import bootstrap framework-->
-    <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/style.css">
-    <!-- Demo CSS -->
-    <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/demo.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simple Bootstrap Login Form Example</title>
+  <link rel='stylesheet' href='https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'>
+  <!--import awsome-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!--import bootstrap framework-->
+  <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/style.css">
+  <!-- Demo CSS -->
+  <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/demo.css">
 </head>
 
 <body>
-   
-    
-    <div class="dashboard_container">
 
-        <div class="dashboard-center-container">
 
-            <div class="container dashboard-shadow-container">
-                <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-                <canvas id="myChart1" style="width:100%;max-width:600px"></canvas>
-                <canvas id="myChart2" style="width:75%;max-width:500px"></canvas>
-                <script src="chartmaking.js"></script>
-                
-                <script type="module">
-                    //code for bar chart
-                  
-                  
-                  
-                  
-                  
-                      var yValues = await yval('http://167.71.198.111:5000/testfeed')
-                      var xValues = []
-                      var a = yValues.length
-                  
-                  
-                  
-                      for (let i = 1; i <= a; i++) {
-                        xValues.push(i)
-                      }
-                      var desiredLength = a; // The desired length of the new array
-                  
-                      var generatedColors = [];
-                  
-                  
-                      //generates random colors
-                      for (var i = 0; i < desiredLength; i++) {
-                        var randomColor = getRandomColor();
-                        generatedColors.push(randomColor);
-                      }
-                  
-                  
-                      var barColors = generatedColors
-                      new Chart("myChart", {
-                        type: "bar",
-                        data: {
-                          labels: xValues,
-                          datasets: [{
-                            backgroundColor: barColors,
-                            data: yValues
-                          }]
-                        },
-                        options: {
-                          legend: { display: false },
-                          title: {
-                            display: true,
-                            text: "World Wine Production 2018"
-                          }
-                        }
-                      });
-                  
-                  
-                  
-                  
-                    </script>
-                  
-                  
-                    <script type="module">
-                  
-                      //code for line chart
-                      var yValues = await yval('http://167.71.198.111:5000/testfeed')
-                      var xValues = []
-                      var a = yValues.length
-                  
-                  
-                  
-                      for (let i = 1; i <= a; i++) {
-                        xValues.push(i)
-                      }
-                  
-                      new Chart("myChart1", {
-                        type: "line",
-                        data: {
-                          labels: xValues,
-                          datasets: [{
-                            fill: false,
-                            lineTension: 0,
-                            backgroundColor: "rgba(0,0,255,1.0)",
-                            borderColor: "rgba(0,0,255,0.1)",
-                            data: yValues
-                          }]
-                        },
-                        options: {
-                          legend: { display: false },
-                  
-                        }
-                      });
-                    </script>
-                  
-                    <script type="module">
-                  
-                      //code for pie chart
-                      var yValues = await yval('http://167.71.198.111:5000/testfeed')
-                      var xValues = []
-                      var a = yValues.length
-                  
-                  
-                  
-                      for (let i = 1; i <= a; i++) {
-                        xValues.push(i)
-                      }
-                      var desiredLength = a; // The desired length of the new array
-                  
-                      var generatedColors = [];
-                  
-                  
-                      //generates random colors
-                      for (var i = 0; i < desiredLength; i++) {
-                        var randomColor = getRandomColor();
-                        generatedColors.push(randomColor);
-                      }
-                  
-                  
-                      var barColors = generatedColors
-                  
-                      new Chart("myChart2", {
-                        type: "pie",
-                        data: {
-                          labels: xValues,
-                          datasets: [{
-                            backgroundColor: barColors,
-                            data: yValues
-                          }]
-                        },
-                        options: {
-                          title: {
-                            display: true,
-                            text: "World Wide Wine Production 2018"
-                          }
-                        }
-                      });
-                    </script>
-                  
+  <div class="dashboard_container">
 
-                    
-                </div>
+    <div class="dashboard-center-container">
 
-            </div>
-        </div>
+      <div class="container dashboard-shadow-container">
+        <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+        <canvas id="myChart1" style="width:100%;max-width:600px"></canvas>
+        <canvas id="myChart2" style="width:75%;max-width:500px"></canvas>
+        <script src="chartmaking.js"></script>
+
+        <script type="module">
+          //code for bar chart
+          var yValues = await yval('http://167.71.198.111:5000/{{ value }}')
+          var xValues = []
+          var a = yValues.length
+
+
+
+          for (let i = 1; i <= a; i++) {
+            xValues.push(i)
+          }
+          var desiredLength = a; // The desired length of the new array
+
+          var generatedColors = [];
+
+
+          //generates random colors
+          for (var i = 0; i < desiredLength; i++) {
+            var randomColor = getRandomColor();
+            generatedColors.push(randomColor);
+          }
+
+
+          var barColors = generatedColors
+          new Chart("myChart", {
+            type: "bar",
+            data: {
+              labels: xValues,
+              datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+              }]
+            },
+            options: {
+              legend: { display: false },
+              title: {
+                display: true,
+                text: "World Wine Production 2018"
+              }
+            }
+          });
+
+
+
+
+        </script>
+
+
+        <script type="module">
+
+
+          //code for line chart
+          var yValues = await yval('http://167.71.198.111:5000/testfeed');
+          var xValues = [];
+          var a = yValues.length;
+
+          for (let i = 1; i <= a; i++) {
+            xValues.push(i);
+          }
+          function handleHover(event, chart) {
+            var elements = chart.getElementsAtEventForMode(event, 'index', { intersect: true }, true);
+
+            if (elements && elements.length > 0) {
+              var firstElement = elements[0];
+              var datasetIndex = firstElement.datasetIndex;
+              var index = firstElement.index;
+              var datasetLabel = chart.data.datasets[datasetIndex].label;
+              var value = chart.data.datasets[datasetIndex].data[index];
+              console.log('Hovered over ' + datasetLabel + ': ' + value);
+            }
+          }
+
+          new Chart("myChart1", {
+            type: "line",
+            data: {
+              labels: xValues,
+              datasets: [{
+                fill: false,
+                lineTension: 0,
+                backgroundColor: "rgba(0,0,255,1.0)",
+                borderColor: "rgba(0,0,255,0.1)",
+                data: yValues
+              }]
+            },
+            options: {
+              legend: { display: false },
+              title: {
+                display: true,
+                text: "World Wine Production 2018"
+              },
+              onHover: handleHover
+            }
+          });
+
+        </script>
+
+        <script type="module">
+
+          //code for pie chart
+          var yValues = await yval('http://167.71.198.111:5000/testfeed')
+          var xValues = []
+          var a = yValues.length
+
+
+
+          for (let i = 1; i <= a; i++) {
+            xValues.push(i)
+          }
+          var desiredLength = a; // The desired length of the new array
+
+          var generatedColors = [];
+
+
+          //generates random colors
+          for (var i = 0; i < desiredLength; i++) {
+            var randomColor = getRandomColor();
+            generatedColors.push(randomColor);
+          }
+
+
+          var barColors = generatedColors
+
+          new Chart("myChart2", {
+            type: "pie",
+            data: {
+              labels: xValues,
+              datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+              }]
+            },
+            options: {
+              title: {
+                display: true,
+                text: "World Wide Wine Production 2018"
+              }
+            }
+          });
+        </script>
+
+
+
+      </div>
+
     </div>
+  </div>
+  </div>
 </body>
 
 </html>

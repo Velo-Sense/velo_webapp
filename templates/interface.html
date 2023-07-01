@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simple Bootstrap Login Form Example</title>
+  <!--CSS styles links starts here-->
+  <link rel='stylesheet' href='https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'>
+  <!--import awsome-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!--import bootstrap framework-->
+  <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/style.css">
+  <!-- Demo CSS -->
+  <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/demo.css">
+  <!--CSS styles links ends here-->
+  <!--Map scripts strats here-->
+  <style>
+    .session {
+      display: block;
+    }
+  </style>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVe_UbuxI4Hw2LO-mfJWQfSKfNFmVYExE&&libraries=&v=weekly"
+    async>
+    </script>
+  <!--Map scripts ends here-->
+  <script>
+    function fetchJSONData() {
+      return fetch('http://167.71.198.111:5000/769246233/20230628/-NZ0ACNP15reNHdHU7HP')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch JSON data');
+          }
+          return response.json();
+        });
+    }
+
+    function loadMap() {
+      var mapProp = {
+        center: new google.maps.LatLng(6.794835, 79.901136),
+        //6.794835
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+
+      var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
+      var tourplan = new google.maps.Polyline({
+        strokeColor: "#0000FF",
+        strokeOpacity: 0.6,
+        strokeWeight: 2,
+        map: map
+      });
+
+      fetchJSONData()
+        .then(data => {
+          const latLngArray = [];
+          for (const key in data) {
+            const item = data[key];
+            const lat = item.lat;
+            const lng = item.lngT;
+            const latLng = new google.maps.LatLng(lat, lng);
+            latLngArray.push(latLng);
+            console.log(lat, lng);
+          }
+          tourplan.setPath(latLngArray);
+        })
+        .catch(error => {
+          console.error('Error fetching JSON data:', error);
+        });
+
+
+    }
+  </script>
+
+  <!--Map content ends here-->
+</head>
+
+<body onload="loadMap()">
+
+  <div class="dashboard_container">
+
+    <div class="dashboard-center-container">
+
+
+      <div class="container dashboard-shadow-container">
+        <div class="row"><!--Main container-->
+
+          <div id="googleMap" style="width: 900px; height: 400px;" class="map"></div>
+        </div>
+        <table style="width:100%;">
+          <tr style="font-family:Poppins">
+            <th>
+              <h5>
+                <center>Starting </center>
+              </h5>
+            </th>
+            <th>
+              <h5>
+                <center>Ending</center>
+              </h5>
+            </th>
+            <th>
+              <h5>
+                <center>Journey:15.5km</center>
+              </h5>
+            </th>
+          </tr>
+
+          <tr style="font-family:Poppins">
+            <th>
+              <h5>
+                <center>10.05 a.m. </center>
+              </h5>
+            </th>
+            <th>
+              <h5>
+                <center>11.05 a.m</center>
+              </h5>
+            </th>
+            <th>
+              <h5>
+                <center>Time duration:1h</center>
+              </h5>
+            </th>
+          </tr>
+        </table>
+
+        <h1><b>Summary</b></h1>
+
+        <table style="width:100%;">
+          <tr style="font-family:Poppins">
+            <td>
+              <h4>
+                <center>Heart Rate: </center>
+              </h4>
+            </td>
+            <td>
+              <h4>
+                <center>Body Temperature:</center>
+              </h4>
+            </td>
+            <td>
+              <h4>
+                <center>Environment Temperature:</center>
+              </h4>
+            </td>
+          </tr>
+
+          <tr style="font-family:Poppins">
+            <td>
+              <h4>
+                <center>Speed:</center>
+              </h4>
+            </td>
+            <td>
+              <h4>
+                <center>Humidity:</center>
+              </h4>
+            </td>
+            <td>
+              <h4>
+                <center>Altitude:</center>
+              </h4>
+            </td>
+          </tr>
+
+          <tr style="font-family:Poppins">
+            <td>
+              <h4>
+                <center>Power:</center>
+              </h4>
+            </td>
+            <td>
+              <h4>
+                <center>Oxygen level:</center>
+              </h4>
+            </td>
+          </tr>
+        </table><br>
+
+        <table style="width:100%;">
+          <tr>
+            <td>
+              <Center>
+                <h3 style="font-family:Poppins ;">
+                  <input type="checkbox" id="Heart Rate" name="Heart Rate" value="Heart Rate" onchange="updateOutput()">
+                  <b>Heart Rate</b>
+                </h3>
+              </Center>
+            </td>
+            <td>
+              <Center>
+                <h3 style="font-family:Poppins;">
+                  <input type="checkbox" id="Heart Rate" name="Heart Rate" value="Heart Rate" onchange="updateOutput()">
+                  <b>Height</b>
+                </h3>
+              </Center>
+            </td>
+            <td>
+              <Center>
+                <h3 style="font-family:Poppins;">
+                  <input type="checkbox" id="Speed" name="Speed" value="Speed" onchange="updateOutput()">
+                  <b>Speed</b>
+                </h3>
+              </Center>
+            </td>
+
+            <td>
+              <Center>
+                <h3 style="font-family:Poppins;">
+                  <input type="checkbox" id="Environment Temperature" name="Environment Temperature"
+                    value="Environment Temperature" onchange="updateOutput()">
+                  <b>Environment Temperature</b>
+                </h3>
+              </Center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <Center>
+                <h3 style="font-family:Poppins;">
+                  <input type="checkbox" id="Humidity" name="Humidity" value="Humidity" onchange="updateOutput()">
+                  <b>Humidity</b>
+                </h3>
+              </Center>
+            </td>
+            <td>
+              <Center>
+                <h3 style="font-family:Poppins;">
+                  <input type="checkbox" id="Oxygen Level" name="Oxygen Level" value="Oxygen Level"
+                    onchange="updateOutput()">
+                  <b>Oxygen Level</b>
+                </h3>
+              </Center>
+            </td>
+            <td>
+              <Center>
+                <h3 style="font-family:Poppins;">
+                  <input type="checkbox" id="Distance" name="Distance" value="Distance" onchange="updateOutput()">
+                  <b>Distance</b>
+                </h3>
+              </Center>
+            </td>
+            <td>
+              <Center>
+                <h3 style="font-family:Poppins;">
+                  <input type="checkbox" id="Body Temperature" name="Body Temperature" value="Body Temperature"
+                    onchange="updateOutput()">
+                  <b>Body Temperature</b>
+                </h3>
+              </Center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <Center>
+                <h3 style="font-family:Poppins;">
+                  <input type="checkbox" id="Power" name="Power" value="Power" onchange="updateOutput()">
+                  <b>Power</b>
+                </h3>
+              </Center>
+            </td>
+          </tr>
+        </table>
+
+        <output id="output">
+          <h1 class="output-heading"></h1>
+        </output>
+        <script>
+          function variables() {
+            var keyValues = [];
+            var bdytValues = [];
+            var envtValues = [];
+            var hrtValues = [];
+            var humValues = [];
+            var spdValues = [];
+          }
+        </script>
+        <canvas id="myChart" style="width:100%;max-width:1000px"></canvas>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+        <script>
+
+          function updateOutput() {
+            var checkboxes = document.querySelectorAll("input[type=checkbox]");
+            var output = document.getElementById("output");
+            var outputHeading = output.querySelector(".output-heading");
+
+            var selectedCheckboxes = [];
+            checkboxes.forEach(function (checkbox) {
+              if (checkbox.checked) {
+                selectedCheckboxes.push(checkbox.id);
+              }
+            });
+
+            if (selectedCheckboxes.length > 0) {
+              outputHeading.innerHTML = "Displayed Graphs: " + selectedCheckboxes.join(", ");
+              fetchData(selectedCheckboxes);
+            } else {
+              outputHeading.innerHTML = " ";
+            }
+
+
+
+            //test
+
+            function fetchData() {
+              // Replace with the actual URL of the JSON file
+              var url = 'http://167.71.198.111:5000/769246233/20230628/-NZ0ACNP15reNHdHU7HP';
+
+              fetch(url)
+                .then(response => response.json())
+                .then(data => {
+
+                  variables()
+                  for (const key in data) {
+                    keyValues.push(key);
+
+                    if (data.hasOwnProperty(key)) {
+                      const obj = data[key];
+                      bdytValues.push(obj.bdyTemp);
+                      envtValues.push(obj.envTemp);
+                      hrtValues.push(obj.hrtRate);
+
+                      if (selectedCheckboxes.includes('Humidity')) {
+                        humValues.push(obj.hum);
+                      } else {
+                        humValues.push(null);
+                      }
+
+                      spdValues.push(obj.spd);
+                    }
+                  }
+
+                  // Use the fetched data as needed
+                  //console.log(keyValues);
+                  //console.log(bdytValues);
+                  //console.log(envtValues);
+                  //console.log(hrtValues);
+                  //console.log(humValues);
+                  //console.log(spdValues);
+                });
+            }
+            //test
+            var xValue = keyValues;
+
+            new Chart("myChart", {
+              type: "line",
+              data: {
+                labels: xValue,
+                datasets: [{
+                  data: bdytValues,
+                  borderColor: "red",
+                  fill: true
+                }, {
+                  data: envtValues,
+                  borderColor: "green",
+                  fill: false
+                }, {
+                  data: hrtValues,
+                  borderColor: "purple",
+                  fill: false
+                }, {
+                  data: humValues,
+                  borderColor: "brown",
+                  fill: false
+                }, {
+                  data: spdValues,
+                  borderColor: "orange",
+                  fill: false
+                }]
+              },
+              options: {
+                legend: { display: false }
+              }
+            });
+
+          }
+
+
+        </script>
+
+        
+        <script type="module">
+          async function fetchData(url) {
+            const response = await fetch(url);
+            const data = await response.json();
+            const altValues = Object.values(data).map(obj => obj.alt);
+            const textValues = Object.values(data).map(obj => obj.text);
+            return { altValues, textValues };
+          }
+
+          function handleClick(event, chart) {
+            var point = chart.getElementAtEvent(event)[0];
+            if (point) {
+              var xValue = chart.data.labels[point._index];
+              var yValue = chart.data.datasets[point._datasetIndex].data[point._index];
+              var h3Element = document.getElementById('pointValue');
+              h3Element.textContent = 'X: ' + xValue + ', Y: ' + yValue;
+            }
+          }
+
+          document.addEventListener('DOMContentLoaded', async function () {
+            const chartData = await fetchData('http://167.71.198.111:5000/{{ value }}');
+            const xValues = chartData.altValues.map((_, index) => index);
+            const maxAltValue = Math.max(...chartData.altValues);
+            const maxTextValue = Math.max(...chartData.textValues);
+
+          })
+            .catch(error => {
+              console.log("Error fetching JSON:", error);
+            });
+
+
+
+        </script>
+
+
+      </div>
+    </div>
+
+
+</body>
+
+</html>

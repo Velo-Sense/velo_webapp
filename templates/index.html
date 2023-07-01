@@ -14,7 +14,7 @@
 
 </head>
 
-<body>
+<body style=" background-color:#d8315d !important;">
   <!---phone auth script-->
   <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
   <script>
@@ -66,29 +66,31 @@
     }
   </script>
 
-  <main>
-    <article>
-      <div class="wrapper">
-        <form class="form-signin">
-          <h2 class="form-signin-heading">Strive</h2>
-          <!---phone auth starts here-->
-          <input type="text" class="form-control" id="number" placeholder="+94*********">
-          <div id="recaptcha-container"></div>
-          <button type="button" class="btn btn-lg btn-primary btn-block" onclick="phoneAuth();">SendCode</button>
+  <article>
+    <div class="wrapper">
+      <form class="form-signin" action="process" method="post">
 
-          <input type="text" class="form-control" id="verificationCode" placeholder="Enter verification code">
-          <button type="button" class="btn btn-lg btn-primary btn-block" onclick="codeverify();">Verify code</button>
+        <h2 class="form-signin-heading">Strive</h2>
+        <!---phone auth starts here-->
+        <input type="text" class="form-control" id="number" name="number" placeholder="+94*********">
+        <div id="recaptcha-container"></div>
+        <button type="button" class="btn btn-lg btn-primary btn-block" onclick="phoneAuth();">SendCode</button>
+
+        <input type="text" class="form-control" id="verificationCode" placeholder="Enter verification code">
+        <!--<button type="button" class="btn btn-lg btn-primary btn-block" onclick="codeverify();">Verify code</button>-->
+        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Submit">
 
 
-          <!---phone auth ends here-->
+        <!---phone auth ends here-->
 
-          <label class="checkbox">
-            <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe">Remember me
-          </label>
+        <label class="checkbox">
+          <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe">Remember me
+        </label>
 
-        </form>
-      </div>
-    </article>
+      </form>
+    </div>
+
+  </article>
   </main>
 
 </body>

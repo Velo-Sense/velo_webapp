@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+   
+   <head>
+       <script src=
+"https://maps.googleapis.com/maps/api/js?key=AIzaSyDVe_UbuxI4Hw2LO-mfJWQfSKfNFmVYExE&callback=initMap&libraries=&v=weekly"
+		async>
+	</script>
+      
+      <script>
+         function loadMap(){
+			
+            var mapProp = {
+               center:new google.maps.LatLng(51.508742,-0.120850),
+               zoom:3,
+               mapTypeId:google.maps.MapTypeId.ROADMAP
+            };
+            
+            var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+            
+            var tourplan = new google.maps.Polyline({
+               path:[
+                  new google.maps.LatLng(28.613939, 77.209021),
+                  new google.maps.LatLng(51.507351, -0.127758),
+                  new google.maps.LatLng(10.712784, -74.005941),
+                  new google.maps.LatLng(28.213545, 94.868713) 
+               ],
+               
+               strokeColor:"#0000FF",
+               strokeOpacity:0.6,
+               strokeWeight:2
+            });
+            
+            tourplan.setMap(map);
+            //to remove plylines
+            //tourplan.setmap(null);
+         }
+      </script>
+      
+   </head>
+   
+   <body onload = "loadMap()">
+      <div id = "googleMap" style = "width:580px; height:400px;"></div>
+   </body>
+   
+</html>

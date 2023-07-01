@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simple Bootstrap Login Form Example</title>
+    <link rel='stylesheet' href='https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'>
+    <!--import awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--import bootstrap framework-->
+    <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/style.css">
+    <!-- Demo CSS -->
+    <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/demo.css">
+    <style>
+        .box {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard_container">
+        <div class="dashboard-center-container">
+            <div class="container dashboard-shadow-container">
+                <h3 id="pointValue" style="padding: auto;">Values:</h3>
+                <canvas id="myChart1" style="width:100%;max-width:600px"></canvas>
+                <canvas id="myChart2" style="width:100%;max-width:600px"></canvas>
+                <div class="box">
+                    <h3 id="pointValue"></h3>
+                </div>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+                <script type="module">
+                    async function fetchData(url) {
+                        const response = await fetch(url);
+                        const data = await response.json();
+                        const altValues = Object.values(data).map(obj => obj.alt);
+                        const textValues = Object.values(data).map(obj => obj.text);
+                        return { altValues, textValues };
+                    }
+
+                    function handleClick(event, chart) {
+                        var point = chart.getElementAtEvent(event)[0];
+                        if (point) {
+                            var xValue = chart.data.labels[point._index];
+                            var yValue = chart.data.datasets[point._datasetIndex].data[point._index];
+                            var h3Element = document.getElementById('pointValue');
+                            h3Element.textContent = 'X: ' + xValue + ', Y: ' + yValue;
+                        }
+                    }
+
+                    document.addEventListener('DOMContentLoaded', async function() {
+                        const chartData = await fetchData('http://167.71.198.111:5000/{{ value }}');
+                        const xValues = chartData.altValues.map((_, index) => index);
+                        const maxAltValue = Math.max(...chartData.altValues);
+                        const maxTextValue = Math.max(...chartData.textValues);
+
+                        new Chart("myChart1", {
+                            type: "line",
+                            data: {
+                                labels: xValues,
+                                datasets: [{
+                                    fill: false,
+                                    lineTension: 0,
+                                    backgroundColor: "rgba(0, 0, 255, 1.0)",
+                                    borderColor: "rgba(0, 0, 255, 0.1)",
+                                    data: chartData.altValues,
+                                }],
+                            },
+                            options: {
+                                legend: { display: false },
+                                scales: {
+                                    x: {
+                                        beginAtZero: true, // Start the x-axis from 0
+                                    },
+                                    y: {
+                                        beginAtZero: true, // Start the y-axis from 0
+                                        max: maxAltValue, // Set the maximum value on the y-axis
+                                    },
+                                },
+                            },
+                        });
+
+                        new Chart("myChart2", {
+                            type: "line",
+                            data: {
+                                labels: xValues,
+                                datasets: [{
+                                    fill: false,
+                                    lineTension: 0,
+                                    backgroundColor: "rgba(255, 0, 0, 1.0)",
+                                    borderColor: "rgba(255, 0, 0, 0.1)",
+                                    data: chartData.textValues,
+                                }],
+                            },
+                            options: {
+                                legend: { display: false },
+                                scales: {
+                                    x: {
+                                        beginAtZero: true, // Start the x-axis from 0
+                                    },
+                                    y: {
+                                        beginAtZero: true, // Start the y-axis from 0
+                                        max: maxTextValue, // Set the maximum value on the y-axis
+                                    },
+                                },
+                            },
+                        });
+
+                        //const chart1 = Chart.getChart("myChart1");
+                        //const chart2 = Chart.getChart("myChart2");
+
+                        //document.getElementById('myChart1').addEventListener('click', (event) => handleClick(event, chart1));
+                        //document.getElementById('myChart2').addEventListener('click', (event) => handleClick(event, chart2));
+                    });
+                </script>
+                
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -9,7 +9,7 @@ body {
 
 .form-signin {
   max-width: 380px;
-  padding: 15px 35px 45px;
+  
   margin: 0 auto;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -51,7 +51,52 @@ body {
   background-color:  #428BCA;
   border-radius: 15px;
 }
+
+.tabs a{
+  
+  background-color:  #000000;
+  
+}
 .separate{
     border-collapse: separate;
     border-spacing: 0 15px;
+}
+
+.new{
+ 
+  background-color:  #428BCA;
+  padding: 15px 25pc;
+  border-radius: 10px;
+  
+}
+
+.way{
+  background-color:  #428BCA;
+}
+
+.topic a{
+  font-size: larger;
+}
+
+.map{
+ margin-left: 9pc;
+ 
+}
+
+.content{
+  width: 300px;
+  display: flex;
+  margin: 80px;
+}
+
+
+.subContent{
+  width: 300px;
+  display: flex ;
+}
+
+.selector{
+  width: 300px;
+  display: flex;
+  margin: 80px;
 }

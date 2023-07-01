@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Simple Bootstrap Login Form Example</title>
@@ -13,85 +13,88 @@
     <!-- Demo CSS -->
     <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/demo.css">
 
-  </head>
-  <body>
-      
+</head>
+
+<body>
+
     <div class="dashboard_container">
 
-      <div class="dashboard-center-container">
+        <div class="dashboard-center-container">
 
-        <div class="container dashboard-shadow-container">
-          <h1 id="variable">http://167.71.198.111:5000/769246233/20230524</h1>
-          <div class="row"><!--Main container-->
-            <div class="col-md-2"><!--menu section-->
-              <ul class="nav flex-column">
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#"><i
-                    class="fa fa-tachometer fa-3x"></i></a>
-                  <!--Use proper awsome font as icon/refer orignal dashboard-->
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"><i class="fa fa-calendar fa-3x"></i></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"><i class="fa fa-cogs fa-3x"></i></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link disabled"><i class="fa fa-user fa-3x"></i></a>
-                </li>
-              </ul>
-            </div>
-           
-            <!--History panel section-->
-            <div class="col-md-10">
-              <hr style="height:20px;background-color:#428BCA">
-              <h3><b>Day01&nbsp;</b>-&nbsp;06/08/2023</h3>
-              <hr style="height:5px;background-color:#428BCA">
-              <table width="100%">
-                <tr>
-                  <th>Time</th>
-                  <th>Distance</th>
-                  <th>Max speed</th>
-                </tr>
-                <tr>
-                  <td>4:11:15</td>
-                  <td>40.2km</td>
-                  <td>61.9km/h</td>
-                </tr>
-                <tr>
-                  <td>5:11:52</td>
-                  <td>50.2km</td>
-                  <td>63.9km/h</td>
-                </tr>
-              </table>
-              <hr style="height:20px;background-color:#428BCA">
-            </div>
-          </div>
+            <div class="container dashboard-shadow-container">
+                <div class="row"><!--Main container-->
+                    <div class="col-md-2"><!--menu section-->
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#"><i
+                                        class="fa fa-tachometer fa-3x"></i></a>
+                                <!--Use proper awsome font as icon/refer orignal dashboard-->
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fa fa-calendar fa-3x"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fa fa-cogs fa-3x"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled"><i class="fa fa-user fa-3x"></i></a>
+                            </li>
+                        </ul>
+                    </div>
 
+                    <!--History panel section-->
+
+
+                    <div class="col-md-10">
+                        
+                        
+                        <table class="separate" width="50%">
+                          
+                           
+                            <thead id="Topic"><h3><center>Past dates</center></h3></thead>
+                                <tbody id="dynamicContent"></tbody>
+                    
+                        </table>
+                    </div>
+
+
+                </div>
+
+            </div>
         </div>
-      </div>
     </div>
+
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        async function fetchData() {
-          try {
-            const check = document.getElementById('variable');
-            if (!check) {
-              console.error('Element with ID "variable" not found.');
-              return;
+        document.addEventListener('DOMContentLoaded', () => {
+            async function fetchData() {
+                try {
+                    const headingValue = "http://167.71.198.111:5000/{{ value }}";
+                    const response = await fetch(headingValue);
+                    const jsonData = await response.json();
+                    console.log(jsonData);
+                    var dynamicContentElement = document.getElementById('dynamicContent');//This element is the parent elemnt
+                    //var formContainer = document.createElement("div");
+            
+                    for (const [key, value] of Object.entries(jsonData)) {//loop through the Json data object array
+                        //console.log(key); console write for test purpose
+                        var formBody = document.createElement("dynamicContent");//add new element per each object in <tbody> tags
+                        formBody.innerHTML = `
+                        <form class="form-signin" id="summaryForm" action="http://167.71.198.111:5000/history" method="post">
+                            <input type="submit" name="button" class="new" value="${key}">
+                        </form>
+                        `;//Form with submit button define to write in each row
+                        dynamicContentElement.appendChild(formBody);//write defined formbody
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
             }
+            fetchData();
 
-            const response = await fetch('http://167.71.198.111:5000/769246233/20230524');
-            const data = await response.json();
-            console.log(data); // Do something with the retrieved data
 
-          } catch (error) {
-            console.error('Error:', error);
-          }
-        }
-
-        fetchData();
-      });
+        });
     </script>
-  </body>
+
+</body>
+
 </html>

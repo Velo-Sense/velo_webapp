@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,19 +12,19 @@
     <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/style.css">
     <!-- Demo CSS -->
     <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/demo.css">
-
 </head>
 
 <body>
-    
+
     <div class="dashboard_container">
 
         <div class="dashboard-center-container">
 
             <div class="container dashboard-shadow-container">
-                <h1 id="variable">http://167.71.198.111:5000/769246233</h1>
-                <div class="row"><!--Main container-->
-                    <div class="col-md-2"><!--menu section-->
+                <div class="row">
+                    <!--Main container-->
+                    <div class="col-md-2">
+                        <!--menu section-->
                         <ul class="nav flex-column">
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="#"><i
@@ -44,65 +44,49 @@
                     </div>
 
                     <!--History panel section-->
-
                     <div class="col-md-10">
-                        <table class="separate"width="80%">
-                            <tr class="tabs">
-                                <td>Day No</td>
-                                <td>Date</td>
-                            </tr>
-
-                    
-                           <tr class="tabs">
-                                <tbody class="tabs" id="dynamicContent"></tbody>
-                            </tr>
-                            </table>
-                        </div>
-                    
+                        <h1>{{ value }}</h1>
+                        <table class="separate" width="50%">
+                            <thead id="Topic"><h3>History</h3></thead>
+                            <tbody id="dynamicContent"></tbody>
+                
+                    </table>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-          async function fetchData() {
-            try {
-              const check = document.getElementById('variable');
-              if (!check) {
-                console.error('Element with ID "variable" not found.');
-                return;
-              }
-    
-              var headingValue = check.innerText;
-              console.log(headingValue);
-    
-              const response = await fetch(headingValue);
-              const jsonData = await response.json();
-              console.log(jsonData);
-    
-              const dynamicContentElement = document.getElementById('dynamicContent');
-    
-              for (const [key, value] of Object.entries(jsonData)) {
-                const row = document.createElement('tr');
-                const keyCell = document.createElement('td');
-                const valueCell = document.createElement('td');
-                keyCell.textContent = key;
-                valueCell.textContent = value;
-                row.appendChild(keyCell);
-                row.appendChild(valueCell);
-                dynamicContentElement.appendChild(row);
-              }
-            } catch (error) {
-              console.error('Error:', error);
+document.addEventListener('DOMContentLoaded', () => {
+            async function fetchData() {
+                try {
+                    const headingValue = "http://167.71.198.111:5000/{{ value }}";
+                    const response = await fetch(headingValue);
+                    const jsonData = await response.json();
+                    console.log(jsonData);
+                    var dynamicContentElement = document.getElementById('dynamicContent');//This element is the parent elemnt
+                    //var formContainer = document.createElement("div");
+            
+                    for (const [key, value] of Object.entries(jsonData)) {//loop through the Json data object array
+                        //console.log(key); console write for test purpose
+                        var formBody = document.createElement("dynamicContent");//add new element per each object in <tbody> 
+                        formBody.innerHTML = `
+                        <form class="form-signin" id="summaryForm" action="http://167.71.198.111:5000/session" method="post">
+                            <input type="submit" name="button" class="new" value="${key}">
+                        </form>
+                        `;//Form with submit button define to write in each row
+                        dynamicContentElement.appendChild(formBody);//write defined formbody
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
             }
-          }
-    
-          fetchData();
+            fetchData();
+
+
         });
-      </script>
-   
+    </script>
 </body>
 
 </html>
