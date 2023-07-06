@@ -89,6 +89,7 @@ def alt(db,id, date, session):
   db.child("history").child(id).child(date).child(session).update(
     {"alt": result})
   
+ 
 
 
 #add data to the firebase
@@ -99,5 +100,7 @@ def summary(db,id, date, session):
   humidity(db,id, date, session)
   body_temperature(db,id, date, session)
   alt(db,id, date, session)
+  #timeduration(db, datetime,id, date, session)
+
 
  

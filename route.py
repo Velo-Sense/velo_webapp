@@ -5,6 +5,7 @@ import database_fun as dbf
 from flask_cors import CORS
 import summary as sm
 
+
 config = {
   "apiKey": "AIzaSyDVe_UbuxI4Hw2LO-mfJWQfSKfNFmVYExE",
   "authDomain": "matheesha.me",
