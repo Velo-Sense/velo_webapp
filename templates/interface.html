@@ -25,7 +25,7 @@
   <!--Map scripts ends here-->
   <script>
     function fetchJSONData() {
-      return fetch('http://167.71.198.111:5000/769246233/20230628/-NZ0ACNP15reNHdHU7HP')
+      return fetch('http://167.71.198.111:5000/{{ value }}')
         .then(response => {
           if (!response.ok) {
             throw new Error('Failed to fetch JSON data');
@@ -266,16 +266,7 @@
         <output id="output">
           <h1 class="output-heading"></h1>
         </output>
-        <script>
-          function variables() {
-            var keyValues = [];
-            var bdytValues = [];
-            var envtValues = [];
-            var hrtValues = [];
-            var humValues = [];
-            var spdValues = [];
-          }
-        </script>
+
         <canvas id="myChart" style="width:100%;max-width:1000px"></canvas>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
         <script>
@@ -294,63 +285,51 @@
 
             if (selectedCheckboxes.length > 0) {
               outputHeading.innerHTML = "Displayed Graphs: " + selectedCheckboxes.join(", ");
-              fetchData(selectedCheckboxes);
+
             } else {
               outputHeading.innerHTML = " ";
             }
+          }
+
+        </script>
 
 
+        <script type="module">
+          async function fetchData() {
+            const url = 'http://167.71.198.111:5000/{{ value }}';
+            const response = await fetch(url);
+            const data = await response.json();
 
-            //test
+            var keyValues = [];
+            var bdytValues = [];
+            var envtValues = [];
+            var hrtValues = [];
+            var humValues = [];
+            var spdValues = [];
+            var altValues = [];
 
-            function fetchData() {
-              // Replace with the actual URL of the JSON file
-              var url = 'http://167.71.198.111:5000/769246233/20230628/-NZ0ACNP15reNHdHU7HP';
+            for (const key in data) {
+              keyValues.push(key);
 
-              fetch(url)
-                .then(response => response.json())
-                .then(data => {
-
-                  variables()
-                  for (const key in data) {
-                    keyValues.push(key);
-
-                    if (data.hasOwnProperty(key)) {
-                      const obj = data[key];
-                      bdytValues.push(obj.bdyTemp);
-                      envtValues.push(obj.envTemp);
-                      hrtValues.push(obj.hrtRate);
-
-                      if (selectedCheckboxes.includes('Humidity')) {
-                        humValues.push(obj.hum);
-                      } else {
-                        humValues.push(null);
-                      }
-
-                      spdValues.push(obj.spd);
-                    }
-                  }
-
-                  // Use the fetched data as needed
-                  //console.log(keyValues);
-                  //console.log(bdytValues);
-                  //console.log(envtValues);
-                  //console.log(hrtValues);
-                  //console.log(humValues);
-                  //console.log(spdValues);
-                });
+              if (data.hasOwnProperty(key)) {
+                const obj = data[key];
+                bdytValues.push(obj.bdyTemp);
+                envtValues.push(obj.envTemp);
+                hrtValues.push(obj.hrtRate);
+                humValues.push(obj.hum);
+                spdValues.push(obj.spd);
+                altValues.push(obj.alt);
+              }
             }
-            //test
-            var xValue = keyValues;
 
             new Chart("myChart", {
               type: "line",
               data: {
-                labels: xValue,
+                labels: keyValues,
                 datasets: [{
                   data: bdytValues,
                   borderColor: "red",
-                  fill: true
+                  fill: false
                 }, {
                   data: envtValues,
                   borderColor: "green",
@@ -363,7 +342,13 @@
                   data: humValues,
                   borderColor: "brown",
                   fill: false
-                }, {
+                },{
+                  data: altValues,
+                  borderColor: "brown",
+                  fill: true
+                },
+                
+                {
                   data: spdValues,
                   borderColor: "orange",
                   fill: false
@@ -373,46 +358,21 @@
                 legend: { display: false }
               }
             });
-
-          }
-
-
-        </script>
-
-        
-        <script type="module">
-          async function fetchData(url) {
-            const response = await fetch(url);
-            const data = await response.json();
-            const altValues = Object.values(data).map(obj => obj.alt);
-            const textValues = Object.values(data).map(obj => obj.text);
-            return { altValues, textValues };
-          }
-
-          function handleClick(event, chart) {
-            var point = chart.getElementAtEvent(event)[0];
-            if (point) {
-              var xValue = chart.data.labels[point._index];
-              var yValue = chart.data.datasets[point._datasetIndex].data[point._index];
-              var h3Element = document.getElementById('pointValue');
-              h3Element.textContent = 'X: ' + xValue + ', Y: ' + yValue;
-            }
           }
 
           document.addEventListener('DOMContentLoaded', async function () {
-            const chartData = await fetchData('http://167.71.198.111:5000/{{ value }}');
-            const xValues = chartData.altValues.map((_, index) => index);
-            const maxAltValue = Math.max(...chartData.altValues);
-            const maxTextValue = Math.max(...chartData.textValues);
-
-          })
-            .catch(error => {
-              console.log("Error fetching JSON:", error);
-            });
-
-
-
+            await fetchData();
+          });
         </script>
+
+
+
+
+
+
+
+
+
 
 
       </div>

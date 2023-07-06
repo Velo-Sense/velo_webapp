@@ -1,4 +1,4 @@
- 
+
 #import json
 
 #find  the average of environment temperature
@@ -10,6 +10,7 @@ def temp(db,id, date, session):
   for count in range(0, a - 2):
     sum = sum + list(data_dict.values())[count]["envTemp"]
   result = sum / (a - 2)
+  #resultr=round(result,2)
   #print(result)
   db.child("history").child(id).child(date).child(session).update(
     {"envtemp": result})
@@ -24,9 +25,10 @@ def heart_rate(db,id, date, session):
   for count in range(0, a - 3):
     sum = sum + list(data_dict.values())[count]["hrtRate"]
   result = sum / (a - 3)
+  #resultr=round(result,2)
   #print(result)
   db.child("history").child(id).child(date).child(session).update(
-    {"heart rate": result})
+    {"hrtRate": result})
 
 
 #find  the average of speed
@@ -38,9 +40,10 @@ def speed(db,id, date, session):
   for count in range(0, a - 4):
     sum = sum + list(data_dict.values())[count]["spd"]
   result = sum / (a - 4)
+  #resultr=round(result,2)
   #print(result)
   db.child("history").child(id).child(date).child(session).update(
-    {"speed": result})
+    {"spd": result})
 
 
 #find  the average of humidity
@@ -52,8 +55,9 @@ def humidity(db,id, date, session):
   for count in range(0, a - 5):
     sum = sum + list(data_dict.values())[count]["hum"]
   result = sum / (a - 5)
+  #resultr=round(resultr,2)
   #print(result)
-  db.child("history").child(id).child(date).child(session).update({"humidity": result})
+  db.child("history").child(id).child(date).child(session).update({"hum": result})
 
 
 #find  the average of body temperature
@@ -65,9 +69,26 @@ def body_temperature(db,id, date, session):
   for count in range(0, a - 6):
     sum = sum + list(data_dict.values())[count]["bdyTemp"]
   result = sum / (a - 6)
+  #resultr=round(resultr,2)
   #print(result)
   db.child("history").child(id).child(date).child(session).update(
-    {"body temp": result})
+    {"bdyTemp": result})
+  
+
+#find  the average of body temperature
+def alt(db,id, date, session):
+  data = db.child("history").child(id).child(date).child(session).get()
+  data_dict = data.val()
+  sum = 0
+  a = len(list(data_dict.values()))
+  for count in range(0, a - 7):
+    sum = sum + list(data_dict.values())[count]["alt"]
+  result = sum / (a - 7)
+  #resultr=round(resultr,2)
+  #print(result)
+  db.child("history").child(id).child(date).child(session).update(
+    {"alt": result})
+  
 
 
 #add data to the firebase
@@ -77,5 +98,6 @@ def summary(db,id, date, session):
   speed(db,id, date, session)
   humidity(db,id, date, session)
   body_temperature(db,id, date, session)
+  alt(db,id, date, session)
 
  

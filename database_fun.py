@@ -1,9 +1,16 @@
- #function to retrive subsessions (func 1)----Sachini
+#-------User Management---------#
+#Check user by User ID
+def checkUserId(db, table, id):
+    data = db.child(table).get().val()
+    return id in data.keys()
+
+
+#function to retrive subsessions (func 1)----Sachini
 def retreivesubsessions(db, table, id, date, session):   
   summary = db.child(table).child(id).child(date).child(session).get()
   result_dict = {}
   for item in summary.each():
-    if item.key() == "strt":
+    if item.key() == "alt":
       break
     result_dict[item.key()] = item.val()
   #print(result_dict)
@@ -108,7 +115,41 @@ def body_temperature(db,id, date, session):
   db.child("history").child(id).child(date).child(session).update(
     {"body temp": result})
 
+#function to retrive subpoints func 5
+def retreiveonlysubsessions(db,table, id, date, session):
+  summary = db.child(table).child(id).child(date).child(session).get()
+  result_dict = {}
 
+  for item in summary.each():
+
+    if item.key() == "alt":
+      break
+    result_dict[item.key()] = item.val()
+  keys = result_dict.keys()
+  print(keys)
+
+  #print(result_dict)
+
+  return result_dict
+
+#function to retrieve only summary func 6
+def retrieve_only_summary(db,table, id, date, session):
+  summary = db.child(table).child(id).child(date).child(session).get()
+  result_dict = {}
+
+  found_alt = False   
+
+  for item in summary.each():
+      if found_alt:
+          if item.key() == "stp":
+              break
+          result_dict[item.key()] = item.val()
+          
+      elif item.key() == "alt":
+          result_dict[item.key()] = item.val()
+          found_alt = True
+  print(result_dict)
+  return result_dict
 
  
    

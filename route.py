@@ -26,8 +26,8 @@ db = firebase.database()
 app = Flask(__name__)
 app.static_folder = 'static'
 app.config['userid'] =''#store userid here phone no eg 769246233
-app.config['day_id'] ='20230524'#store day_id here eg 20230524
-app.config['ses_id'] ='1'#store session id here eg 1
+app.config['day_id'] =''#store day_id here eg 20230524
+app.config['ses_id'] =''#store session id here eg 1
 CORS(app)
 
 # two decorators, same function
@@ -50,7 +50,6 @@ def myth():
 
 @app.route('/day')
 def day():
-
     test1=app.config['userid']
     #print(test['alt'])
     return render_template('date.html', value=test1)
@@ -63,12 +62,17 @@ def session():
     #print(test['alt'])
     return render_template('interface.html', value=test1)
 
-
+#User Id verification
 @app.route('/process', methods=['POST'])
 def process_form():
-    userid = request.form.get('number')
-    app.config['userid'] = userid #store userid obtained from the form 
-    return redirect('/day')
+    useridRaw = request.form.get('number')
+    userid=useridRaw[1:]
+    if(dbf.checkUserId(db,"users",str(userid))):
+        app.config['userid'] = userid #store userid obtained from the form 
+        return redirect('/day')
+    else:
+        return redirect('/',)
+
 
 
 
@@ -116,7 +120,18 @@ def retreivedate(user):
     query = dbf.retreivedate(db,"history",user)
     return jsonify(query)
     
+#test user is available in table
+@app.route('/user')
+def checkUser():
+    user=str(769246233)
+    query = dbf.checkUserId(db,"users",user)
+    return jsonify(query)
     
+
+
+
+
+
 #feed json output on  function to retrive only time by given date(func 4)
 @app.route('/<user>/<date>')
 def  retrieve_sessions_with_time(user,date):
@@ -146,18 +161,42 @@ def get_test_data2():
 #------------Sumarization function--------#
 
 #https://reqbin.com/ API Test platform
-#{"uid":"769246233","date":"20230630","ses":"-NZ9yhXn5LvvNGsRiCOb"}
+#y
 #
-@app.route('/summary',methods=['POST'])
-def summarizer():
+#@app.route('/summary',methods=['POST'])
+#def summarizer():
     #user="769246233"
     #date="20230630"
     #session="-NZ9yhXn5LvvNGsRiCOb"
-    user = str(request.form.get('uid'))
-    date=str(request.form.get('date'))
-    session=str(request.form.get('ses'))
-    sm.summary(db,user,date,session)
+    #user = str(request.json.get('uid'))
+    #date=str(request.json.get('date'))
+    #session=str(request.json.get('ses'))
+
+    #print(request.json.get('uid'))
+    #sm.summary(db,user,date,session)
+    #return f"OK"
+
+@app.route('/summary', methods=['POST'])
+def summarizer():
+    user = str(request.values.get('uid'))
+    date = str(request.values.get('date'))
+    session = str(request.values.get('ses'))
+
+    print(request.form.get('uid'))
+    sm.summary(db, user, date, session)
     return f"OK"
 
+ #feed json output on function to retrive subsessions (func 5)
+@app.route('/session/<user>/<date>/<session>')
+def retreiveonlysubsessions(user,date,session):
+    query = dbf.retreiveonlysubsessions(db,"history",user,date,session)
+    return jsonify(query)
+
+#feed json output on function to retrive only summary (func 6)
+@app.route('/onlysummary/<user>/<date>/<session>')
+def retrieve_only_summary(user,date,session):
+    query = dbf. retrieve_only_summary(db,"history",user,date,session)
+    return jsonify(query)
+ 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0', port=5000)
