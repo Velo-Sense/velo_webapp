@@ -89,18 +89,46 @@ def alt(db,id, date, session):
   db.child("history").child(id).child(date).child(session).update(
     {"alt": result})
   
- 
+#find  the time duration
+def timeduration(db,datetime, id, date, session):
+  summary = db.child("history").child(id).child(date).child(session).get()
+  result_dict = {}
+  for item in summary.each():
+    if item.key() == "strt":
+      start_time = item.val()
+    if item.key() == "stp":
+      stop_time = item.val()
+
+  if start_time is not None and stop_time is not None:
+    start_time_str = str(start_time).ljust(6, '0')
+    stop_time_str = str(stop_time).ljust(6, '0')
+
+    start_time_dt = datetime.strptime(start_time_str, "%H%M%S")
+    stop_time_dt = datetime.strptime(stop_time_str, "%H%M%S")
+
+    time_duration = stop_time_dt - start_time_dt
+    time_duration_str = str(time_duration)
+
+    # Extract hours, minutes, and seconds from the time duration
+    hours, remainder = divmod(time_duration.seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+
+    time_format = f"{hours:02d}{minutes:02d}{seconds:02d}"
+    print(time_format)
+    db.child("history").child(id).child(date).child(session).update(
+      {"timed": time_format})
+
 
 
 #add data to the firebase
-def summary(db,id, date, session):
+def summary(datetime,db,id, date, session):
   temp(db,id, date, session)
   heart_rate(db,id, date, session)
   speed(db,id, date, session)
   humidity(db,id, date, session)
   body_temperature(db,id, date, session)
   alt(db,id, date, session)
-  #timeduration(db, datetime,id, date, session)
+  timeduration(db,datetime,id, date, session)
 
 
  

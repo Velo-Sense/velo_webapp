@@ -4,6 +4,7 @@ import pyrebase #import firebase library
 import database_fun as dbf
 from flask_cors import CORS
 import summary as sm
+from datetime import datetime, timedelta
 
 
 config = {
@@ -184,7 +185,7 @@ def summarizer():
     session = str(request.values.get('ses'))
 
     print(request.form.get('uid'))
-    sm.summary(db, user, date, session)
+    sm.summary(datetime,db, user, date, session)
     return f"OK"
 
  #feed json output on function to retrive subsessions (func 5)
