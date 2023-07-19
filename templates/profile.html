@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simple Bootstrap Login Form Example</title>
+    <link rel='stylesheet' href='https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'>
+    <!--import awsome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--import bootstrap framework-->
+    <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/style.css">
+    <!-- Demo CSS -->
+    <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/demo.css">
+</head>
+
+<body>
+
+    <div class="dashboard_container">
+
+        <div class="dashboard-center-container">
+
+            <div class="container dashboard-shadow-container">
+                <div class="row">
+                    <!--Main container-->
+                    <div class="col-md-2">
+                        <!--menu section-->
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#"><i
+                                        class="fa fa-tachometer fa-3x"></i></a>
+                                <!--Use proper awsome font as icon/refer orignal dashboard-->
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="Calender.html"><i class="fa fa-calendar fa-3x"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fa fa-cogs fa-3x"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="profile.html"><i class="fa fa-user fa-3x"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!--History panel section-->
+                    <div class="col-md-10">
+                        <h1><u><b>Profile Details</b></u></h1>
+                        <form action="/update" method="post">
+                            <ul style="padding: 20px;">
+                                <li><b>Name : </b><input type="text" id="name" name="name" value="{{ user_data.name }}"
+                                        size="25"><br></li><br>
+                                <li><b>Phone No : </b><input type="tel" id="phone" name="phonenum"
+                                        value="{{ user_data.phone }}" size="25">
+                                </li><br>
+                                <lable for><b>Date Of Birth : </b><input type="date" id="DOB" name="DOB"
+                                        value="{{ user_data.dob }}" size="25"></li><br>
+                                    <li><b>Email : </b><input type="email" id="email" name="email"
+                                            value="{{ user_data.email }}" size="25"></li>
+                            </ul>
+                            <div style=padding-left:15pc;>
+                                <input type="submit" value="Save"
+                                    style="padding-left:20px;padding-right:20px;background-color:#428bca;border-radius:10px;"
+                                    onclick="submitForm()">
+                        </form>
+                        <script>
+                            function submitForm() {
+                                var formData = new FormData();
+                                formData.append('name', document.getElementById('name').value);
+                                formData.append('phone', document.getElementById('phone').value);
+                                formData.append('DOB', document.getElementById('DOB').value);
+                                formData.append('email', document.getElementById('email').value);
+                                // Add more form fields as needed
+
+                                fetch('http://167.71.198.111:5000/profile', {
+                                    method: 'POST',
+                                    body: formData
+                                })
+                                    .then(function (response) {
+                                        if (response.ok) {
+                                            return response.text();
+                                        } else {
+                                            throw new Error('Request failed');
+                                        }
+                                    })
+                                    .then(function (data) {
+                                        // Request successful, do something with the response
+                                        console.log(data);
+                                    })
+                                    .catch(function (error) {
+                                        // Request failed
+                                        console.error('Request failed:', error.message);
+                                    });
+                            }
+                        </script>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+</body>
+
+</html>

@@ -64,8 +64,8 @@ body {
 
 .new{
  
-  background-color:  #428BCA;
-  padding: 15px 25pc;
+  background-color:  #11009e;
+  padding: 15px 380px;
   border-radius: 10px;
   
 }
@@ -99,4 +99,18 @@ body {
   width: 300px;
   display: flex;
   margin: 80px;
+}
+
+.custom-button {
+  background-color: #4CAF50; /* Set the background color */
+  color: #4CAF50; /* Set the text color */
+  padding: 10px 20px; /* Set the padding */
+  border: none; /* Remove the border */
+  border-radius: 4px; /* Set the border radius */
+  cursor: pointer; /* Set the cursor to a pointer */
+  font-size: 16px; /* Set the font size */
+}
+
+.custom-button:hover {
+  background-color: #45a049; /* Set the background color on hover */
 }

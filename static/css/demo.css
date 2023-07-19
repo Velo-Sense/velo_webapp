@@ -10,7 +10,6 @@ body {
    font-family: 'Roboto', sans-serif;
    font-style: normal;
    font-weight: 300;
-   font-smoothing: antialiased;
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
    font-size: 15px;
@@ -221,7 +220,7 @@ code {
 /* Dashboard */
 
 .dashboard_container{
-   background-color: #d8315d;
+   background-color: #8696fe;
 }
 
 .dashboard-center-container {

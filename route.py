@@ -5,6 +5,7 @@ import database_fun as dbf
 from flask_cors import CORS
 import summary as sm
 from datetime import datetime, timedelta
+import googlemaps
 
 
 config = {
@@ -33,7 +34,7 @@ app.config['ses_id'] =''#store session id here eg 1
 CORS(app)
 
 # two decorators, same function
-@app.route('/')
+@app.route('/')#First Page redirected to index.html 
 def index():
     return render_template('index.html', the_title='Tiger Home Page')
 
@@ -43,8 +44,8 @@ def symbol():
 
 @app.route('/history', methods=['POST'])
 def myth():
-    ss_date = str(request.form.get('button'))
-    app.config['day_id']=ss_date
+    #ss_date = str(request.form.get('button'))
+    #app.config['day_id']=ss_date
     test3=app.config['userid']+'/'+app.config['day_id']
     #print(test['alt'])
     return render_template('history.html', value=test3)
@@ -54,7 +55,7 @@ def myth():
 def day():
     test1=app.config['userid']
     #print(test['alt'])
-    return render_template('date.html', value=test1)
+    return render_template('Calendar.html', value=test1)
 
 @app.route('/session', methods=['POST'])
 def session():
@@ -185,7 +186,7 @@ def summarizer():
     session = str(request.values.get('ses'))
 
     print(request.form.get('uid'))
-    sm.summary(datetime,db, user, date, session)
+    sm.summary(googlemaps,datetime,db, user, date, session)
     return f"OK"
 
  #feed json output on function to retrive subsessions (func 5)
@@ -200,5 +201,37 @@ def retrieve_only_summary(user,date,session):
     query = dbf. retrieve_only_summary(db,"history",user,date,session)
     return jsonify(query)
  
+@app.route('/update', methods=['POST'])
+def update_user_data():
+    dbf.update_user_data(db,request)
+    return f"OK"
+
+@app.route('/profile')
+def user_data_form():
+    table = 'users'  # Firebase table name
+    id = '715843108'  # User ID from the form or authentication system
+
+    #Retrieve user data from Firebase
+    users = db.child(table).child(id).get()
+    user_data = users.val()
+
+    return render_template('profile.html', user_data=user_data)
+
+@app.route('/settings')
+def settings():
+    table = 'users'  # Firebase table name
+    id = '715843108'  # User ID from the form or authentication system
+
+    #Retrieve user data from Firebase
+    users = db.child(table).child(id).get()
+    user_data = users.val()
+
+    return render_template('settings.html', user_data=user_data)
+
+@app.route('/delete', methods=['POST'])
+def delete_data():
+    dbf.delete(db,request)
+    return f"OK"
+
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0', port=5000)

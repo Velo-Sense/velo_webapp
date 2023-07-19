@@ -1,0 +1,63 @@
+table {
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border: 0px solid white;
+    padding: 15px;
+    text-align: center;
+    font-family: calibri;
+    font-size: 40px;
+  }
+  
+  .highlight {
+    position: relative;
+  }
+  
+  .highlight::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #D8315D; /* Set the background color for the circular area */
+    border-radius: 50%;
+    width: 70px; /* Set the desired width of the circular area */
+    height: 70px; /* Set the desired height of the circular area */
+    z-index: -1; /* Place the circular area behind the cell content */
+  }
+
+  td {
+    position: relative;
+  }
+  
+  td:hover::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: grey; /* Set the highlight color */
+    border-radius: 50%;
+    width: 70px; /* Set the highlight area to cover the entire cell */
+    height: 70px; /* Set the highlight area to cover the entire cell */
+    opacity: 0.5; /* Set the desired opacity of the highlight area */
+    pointer-events: none; /* Allow hovering over the underlying content */
+    z-index: -1;
+  }
+
+  .button {
+    display: inline-block;
+    padding-left: 100px;
+    padding-right: 100px;
+    
+    cursor: pointer;
+  }
+
+  
+  
+  
+  
+  
+  
+  

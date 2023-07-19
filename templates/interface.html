@@ -35,6 +35,9 @@
                 });
         }
 
+
+
+
         function loadMap() {
             var mapProp = {
                 center: new google.maps.LatLng(6.794835, 79.901136),
@@ -52,21 +55,55 @@
                 map: map
             });
 
+            var startMarker = new google.maps.Marker({
+                position: null, // Set the position later
+                map: map,
+                label: 'Start' // Label for the start marker
+            });
+
+            var endMarker = new google.maps.Marker({
+                position: null, // Set the position later
+                map: map,
+                label: 'End' // Label for the end marker
+            });
+
+            var hoverMarker = new google.maps.Marker({
+                position: null,
+                map: map,
+                icon: {
+                    url: "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+                    scaledSize: new google.maps.Size(32, 32)
+                },
+                zIndex: 9999,
+                visible: false
+            });
+
+            var infoWindow = new google.maps.InfoWindow();
+
             fetchJSONData()
                 .then(data => {
                     const latLngArray = [];
+                    const labArray = [];
                     for (const key in data) {
                         const item = data[key];
                         const lat = item.lat;
                         const lng = item.lngT;
+                        const label = item.tmStmp; // Assuming there's a label property in your data
                         const latLng = new google.maps.LatLng(lat, lng);
                         latLngArray.push(latLng);
+                        labArray.push(label);
                         //console.log(lat, lng);
 
                     }
                     tourplan.setPath(latLngArray);
-                    //console.log(latLngArray[0].toString());
-                    map.setCenter(latLngArray[0])
+                    console.log(labArray[0].toString());
+
+                    startMarker.setPosition(latLngArray[0]);
+                    endMarker.setPosition(latLngArray[latLngArray.length - 1]);
+                    map.setCenter(latLngArray[0]);
+
+
+
                 })
                 .catch(error => {
                     console.error('Error fetching JSON data:', error);
@@ -87,6 +124,9 @@
 
 
             <div class="container dashboard-shadow-container">
+                
+                <h1><u><b><center>Current Ride</center></b></u></h1>
+                <h2><u><i>Path</i></u></h2>
                 <div class="row"><!--Main container-->
 
                     <div id="googleMap" style="width: 900px; height: 400px;" class="map"></div>
@@ -129,7 +169,7 @@
                     </tr>
                 </table>
 
-                <h1><b>Summary</b></h1>
+                <h2><u><i>Sensor readings</i></u></h2>
 
                 <table style="width:100%;">
                     <tr style="font-family:Poppins">

@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--import bootstrap framework-->
     <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/style.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/bootstrap.min.css">
     <!-- Demo CSS -->
     <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/demo.css">
 </head>
@@ -20,37 +22,40 @@
 
         <div class="dashboard-center-container">
 
-            <div class="container dashboard-shadow-container">
+            <div class="container dashboard-shadow-container" style="border-radius: 20px;">
                 <div class="row">
                     <!--Main container-->
                     <div class="col-md-2">
                         <!--menu section-->
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#"><i
+                                <a class="nav-link active" aria-current="page" href="#" style="color: #11009e;"><i
                                         class="fa fa-tachometer fa-3x"></i></a>
                                 <!--Use proper awsome font as icon/refer orignal dashboard-->
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-calendar fa-3x"></i></a>
+                                <a class="nav-link" href="#"><i class="fa fa-calendar fa-3x" style="color: #11009e;"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-cogs fa-3x"></i></a>
+                                <a class="nav-link" href="#"><i class="fa fa-cogs fa-3x" style="color: #11009e;"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link disabled"><i class="fa fa-user fa-3x"></i></a>
+                                <a class="nav-link"href="profile.html"><i class="fa fa-user fa-3x" style="color: #11009e;"></i></a>
                             </li>
                         </ul>
                     </div>
 
                     <!--History panel section-->
                     <div class="col-md-10">
-                        <h1>{{ value }}</h1>
-                        <table class="separate" width="50%">
-                            <thead id="Topic"><h3>History</h3></thead>
+                        
+                        <table class="separate" width="0%">
+                            <thead id="Topic">
+                                
+                                <h2 style="color:#11009e ;"><b><U>History</U></b></h2>
+                                <h4 style="font-style:oblique;color:#11009e"><b>{{ value }}</b></h4>
+                            </thead>
                             <tbody id="dynamicContent"></tbody>
-                
-                    </table>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -58,7 +63,34 @@
     </div>
 
     <script>
-document.addEventListener('DOMContentLoaded', () => {
+        function postData() {
+            var url = "http://167.71.198.111:5000/session";
+            var data = {
+                button: "-NZte4rLTkecCrIxatmI",
+            };
+
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(result => {
+                    // Handle the response here
+                    console.log(result);
+                })
+                .catch(error => {
+                    // Handle any errors here
+                    console.error("Error:", error);
+                });
+        }
+
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
             async function fetchData() {
                 try {
                     const headingValue = "http://167.71.198.111:5000/{{ value }}";
@@ -67,13 +99,32 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log(jsonData);
                     var dynamicContentElement = document.getElementById('dynamicContent');//This element is the parent elemnt
                     //var formContainer = document.createElement("div");
-            
+
                     for (const [key, value] of Object.entries(jsonData)) {//loop through the Json data object array
-                        //console.log(key); console write for test purpose
-                        var formBody = document.createElement("dynamicContent");//add new element per each object in <tbody> 
+                        var formBody = document.createElement("dynamicContent");//add new element per each object in <tbody>
+                        timestr = value.toString()
+                        console.log(timestr); //console write for test purpose
+                        if (timestr.length == 4) {
+                            var hours = parseInt(timestr.substr(0, 2));
+                            var minutes = parseInt(timestr.substr(2, 2));
+                        } else {
+                            //console write for test purpose
+                            var hours = parseInt(timestr.substr(0, 1));
+                            //console.log(hours);
+                            var minutes = parseInt(timestr.substr(1, 2));
+                        }
+
+                        // Check if it's PM or AM
+                        var period = (hours >= 12) ? "PM" : "AM";
+
+                        // Adjust hours if needed
+                        hours = (hours > 12) ? hours - 12 : hours;
+
+                        // Format the time string
+                        var formattedTime = hours.toString().padStart(2, "0") + ":" + minutes.toString().padStart(2, "0") + " " + period;
                         formBody.innerHTML = `
-                        <form class="form-signin" id="summaryForm" action="http://167.71.198.111:5000/session" method="post">
-                            <input type="submit" name="button" class="new" value="${key}">
+                        <form class="form-signin w-100" id="summaryForm" action="http://167.71.198.111:5000/session" method="post">
+                            <input type="submit" name="button" class="new" value ="${key}" style="color:white;">
                         </form>
                         `;//Form with submit button define to write in each row
                         dynamicContentElement.appendChild(formBody);//write defined formbody
@@ -81,8 +132,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 } catch (error) {
                     console.error('Error:', error);
                 }
+                await fetchData();
             }
-            fetchData();
+            
 
 
         });

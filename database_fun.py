@@ -1,3 +1,4 @@
+import googlemaps
 #-------User Management---------#
 #Check user by User ID
 def checkUserId(db, table, id):
@@ -151,6 +152,47 @@ def retrieve_only_summary(db,table, id, date, session):
   print(result_dict)
   return result_dict
 
+ # Update user data in Firebase
+def update_user_data(db,request):
+  table = 'users'  # Firebase table name
+  id = '715843108'  # User ID from the form or authentication system
+
+  # Get the field values from the form
+  name = request.values.get('name')
+  email = request.values.get('email')
+  phonenum = request.values.get('phonenum')
+  dob=request.values.get('DOB')
+  timeinterval=request.values.get('timeinterval')
+
+  # Update user data in Firebase
+  if name:
+      db.child(table).child(id).update({'name': name})
+  if email:
+      db.child(table).child(id).update({'email': email})
+  if phonenum:
+      db.child(table).child(id).update({'phone': phonenum})
+  if dob:
+     db.child(table).child(id).update({'dob': dob})
+  if timeinterval:
+     db.child(table).child(id).update({'timeinterval': timeinterval})
+  
+     
+  return 'User data updated successfully'
+
+# Update user data in Firebase
+def delete(db,request):
+  table = 'history'  # Firebase table name
+  id = '715843108'  # User ID from the form or authentication system
+
+  # Get the field values from the form
+  field= request.values.get('delete')
+  
+
+  # Update user data in Firebase
+  db.child("history").child(id).child(field).remove()
+  
+     
+  return 'deleted successfully'
  
    
 
@@ -162,4 +204,6 @@ def summarizer(db,userid,day_id,ses_id):
    #hum=humidity(db,userid,day_id,ses_id)
    #alt=alt(db,userid,day_id,ses_id)
    return 0
-   
+
+
+

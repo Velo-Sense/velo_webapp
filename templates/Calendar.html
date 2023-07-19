@@ -1,0 +1,134 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/calendar.css" onload="generateCalendar()">
+
+</head>
+
+<body>
+    <div id="calendar"></div>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+    <script>
+        var currentMonth = moment().month();
+        var currentYear = 2023; // Change this to the desired year
+
+        function generateCalendar() {
+            var currentDate = moment([currentYear, currentMonth]);
+            var calendarHTML = '<table>';
+            calendarHTML += '<tr><th colspan="7">' + '<div class="button previous"><button onclick="goToPreviousMonth()">&#10094;</button></div>' + currentDate.format('MMMM YYYY') + '<div class="button next"><button onclick="goToNextMonth()">&#10095;</button></div>' + '</th></tr>';
+            calendarHTML += '<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>';
+
+            var firstDay = currentDate.startOf('month');
+            var daysInMonth = currentDate.daysInMonth();
+
+            var dayCount = 1;
+            for (var week = 0; week < 6; week++) {
+                calendarHTML += '<tr>';
+                for (var day = 0; day < 7; day++) {
+                    if (week === 0 && day < firstDay.day()) {
+                        calendarHTML += '<td></td>';
+                    } else if (dayCount > daysInMonth) {
+                        calendarHTML += '<td></td>';
+                    } else {
+                        var highlightedDates = keyArray;
+                        var date = moment([currentYear, currentMonth, dayCount]);
+                        var formattedDate = date.format('YYYYMMDD');
+                        var isHighlighted = isDateHighlighted(formattedDate, highlightedDates);
+
+                        if (isHighlighted) {
+                            calendarHTML += '<td class="highlight" onclick="handleDateClick()">' + dayCount + '</td>';
+                        } else {
+                            calendarHTML += '<td onclick="handleDateClick()">' + dayCount + '</td>';
+                        }
+
+                        dayCount++;
+                    }
+                }
+                calendarHTML += '</tr>';
+            }
+
+            calendarHTML += '</table>';
+            document.getElementById('calendar').innerHTML = calendarHTML;
+        }
+
+        function isDateHighlighted(date, highlightedDates) {
+            return highlightedDates.includes(date);
+        }
+
+
+        function handleDateClick() {
+            const url = "http://167.71.198.111:5000/history";
+
+            // Create a hidden form element
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = url;
+            document.body.appendChild(form);
+
+            // Submit the form
+            form.submit();
+        }
+
+
+        function goToPreviousMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            generateCalendar();
+        }
+
+        function goToNextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            generateCalendar();
+        }
+
+
+
+        // Declare a global array to store the keys
+        let keyArray = [];
+
+        async function fetchData() {
+            try {
+                const headingValue = "http://167.71.198.111:5000/{{ value }}";
+                const response = await fetch(headingValue);
+                const jsonData = await response.json();
+                console.log(jsonData);
+
+                for (const [key, value] of Object.entries(jsonData)) {
+                    // Push each key into the global array
+                    keyArray.push(key);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Use await to ensure fetchData completes before generating the calendar
+            await fetchData();
+
+            // Now, the keyArray is populated, so we can generate the calendar
+            generateCalendar();
+
+            // Now, you can access the keyArray anywhere in the script as it is declared in the outer scope.
+            // For example:
+            console.log(keyArray); // This will print the array of keys once fetchData() has finished executing.
+        });
+
+
+    </script>
+
+
+
+
+
+</body>
+
+</html>
