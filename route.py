@@ -62,7 +62,7 @@ def day():
 def day1():
     test1=app.config['userid']
     #print(test['alt'])
-    return render_template('date.html', value=test1)
+    return render_template('Calendar.html', value=test1)
 
 @app.route('/session', methods=['POST'])
 def session():
@@ -79,7 +79,7 @@ def process_form():
     userid=useridRaw[1:]
     if(dbf.checkUserId(db,"users",str(userid))):
         app.config['userid'] = userid #store userid obtained from the form 
-        return redirect('/day')
+        return redirect('/calendar')
     else:
         return redirect('/',)
 

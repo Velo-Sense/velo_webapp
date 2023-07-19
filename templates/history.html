@@ -21,7 +21,7 @@
     <div class="dashboard_container">
 
         <div class="dashboard-center-container">
-
+            <h1>{{ value }}</h1>
             <div class="container dashboard-shadow-container" style="border-radius: 20px;">
                 <div class="row">
                     <!--Main container-->
@@ -29,30 +29,33 @@
                         <!--menu section-->
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="http://167.71.198.111:5000/day" style="color: #11009e;"><i
-                                        class="fa fa-tachometer fa-3x"></i></a>
+                                <a class="nav-link active" aria-current="page" href="http://167.71.198.111:5000/day"
+                                    style="color: #11009e;"><i class="fa fa-tachometer fa-3x"></i></a>
                                 <!--Use proper awsome font as icon/refer orignal dashboard-->
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="http://167.71.198.111:5000/calendar"><i class="fa fa-calendar fa-3x" style="color: #11009e;"></i></a>
+                                <a class="nav-link" href="http://167.71.198.111:5000/calendar"><i
+                                        class="fa fa-calendar fa-3x" style="color: #11009e;"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="http://167.71.198.111:5000/settings"><i class="fa fa-cogs fa-3x" style="color: #11009e;"></i></a>
+                                <a class="nav-link" href="http://167.71.198.111:5000/settings"><i
+                                        class="fa fa-cogs fa-3x" style="color: #11009e;"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link"href="http://167.71.198.111:5000/profile"><i class="fa fa-user fa-3x" style="color: #11009e;"></i></a>
+                                <a class="nav-link" href="http://167.71.198.111:5000/profile"><i
+                                        class="fa fa-user fa-3x" style="color: #11009e;"></i></a>
                             </li>
                         </ul>
                     </div>
 
                     <!--History panel section-->
                     <div class="col-md-10">
-                        
+
                         <table class="separate" width="0%">
                             <thead id="Topic">
-                                
+
                                 <h2 style="color:#11009e ;"><b><U>History</U></b></h2>
-                                
+
                             </thead>
                             <tbody id="dynamicContent"></tbody>
                         </table>
@@ -133,10 +136,10 @@
                 } catch (error) {
                     console.error('Error:', error);
                 }
-                
+
             }
             fetchData();
-            
+
 
 
         });
