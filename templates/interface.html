@@ -124,105 +124,23 @@
 
 
             <div class="container dashboard-shadow-container">
-                
-                <h1><u><b><center>Current Ride</center></b></u></h1>
+
+                <h1><u><b>
+                            <center>Current Ride</center>
+                        </b></u></h1>
                 <h2><u><i>Path</i></u></h2>
                 <div class="row"><!--Main container-->
 
                     <div id="googleMap" style="width: 900px; height: 400px;" class="map"></div>
                 </div>
-                <table style="width:100%;">
-                    <tr style="font-family:Poppins">
-                        <th>
-                            <h5>
-                                <center>Starting </center>
-                            </h5>
-                        </th>
-                        <th>
-                            <h5>
-                                <center>Ending</center>
-                            </h5>
-                        </th>
-                        <th>
-                            <h5>
-                                <center>Journey:15.5km</center>
-                            </h5>
-                        </th>
-                    </tr>
+                <h>{{ value }}</h>
 
-                    <tr style="font-family:Poppins">
-                        <th>
-                            <h5>
-                                <center>10.05 a.m. </center>
-                            </h5>
-                        </th>
-                        <th>
-                            <h5>
-                                <center>11.05 a.m</center>
-                            </h5>
-                        </th>
-                        <th>
-                            <h5>
-                                <center>Time duration:1h</center>
-                            </h5>
-                        </th>
-                    </tr>
-                </table>
+                <div id="output"></div>
 
-                <h2><u><i>Sensor readings</i></u></h2>
+
 
                 <table style="width:100%;">
-                    <tr style="font-family:Poppins">
-                        <td>
-                            <h4>
-                                <center>Heart Rate: </center>
-                            </h4>
-                        </td>
-                        <td>
-                            <h4>
-                                <center>Body Temperature:</center>
-                            </h4>
-                        </td>
-                        <td>
-                            <h4>
-                                <center>Environment Temperature:</center>
-                            </h4>
-                        </td>
-                    </tr>
-
-                    <tr style="font-family:Poppins">
-                        <td>
-                            <h4>
-                                <center>Speed:</center>
-                            </h4>
-                        </td>
-                        <td>
-                            <h4>
-                                <center>Humidity:</center>
-                            </h4>
-                        </td>
-                        <td>
-                            <h4>
-                                <center>Altitude:</center>
-                            </h4>
-                        </td>
-                    </tr>
-
-                    <tr style="font-family:Poppins">
-                        <td>
-                            <h4>
-                                <center>Power:</center>
-                            </h4>
-                        </td>
-                        <td>
-                            <h4>
-                                <center>Oxygen level:</center>
-                            </h4>
-                        </td>
-                    </tr>
-                </table><br>
-
-                <table style="width:100%;">
+                    <h2><u><i>Sensor Readings</i></u></h2>
                     <tr>
                         <td>
                             <Center>
@@ -272,15 +190,7 @@
                                 </h3>
                             </Center>
                         </td>
-                        <td>
-                            <Center>
-                                <h3 style="font-family:Poppins;">
-                                    <input type="checkbox" id="Oxygen Level" name="Oxygen Level" value="Oxygen Level"
-                                        onchange="updateOutput()">
-                                    <b>Oxygen Level</b>
-                                </h3>
-                            </Center>
-                        </td>
+
                         <td>
                             <Center>
                                 <h3 style="font-family:Poppins;">
@@ -300,17 +210,7 @@
                             </Center>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <Center>
-                                <h3 style="font-family:Poppins;">
-                                    <input type="checkbox" id="Power" name="Power" value="Power"
-                                        onchange="updateOutput()">
-                                    <b>Power</b>
-                                </h3>
-                            </Center>
-                        </td>
-                    </tr>
+
                 </table>
 
                 <output id="output">
@@ -347,6 +247,31 @@
 
 
                 <script type="module">
+
+                    async function fetchsum() {
+                        const url = 'http://167.71.198.111:5000/onlysummary/{{ value }}';
+
+                        try {
+                            const response = await fetch(url);
+                            const data = await response.json();
+                            const values = [data.alt, data.bdyTemp, data.dst, data.endAd, data.envtemp, data.hrtRate, data.hum, data.spd];
+                            console.log(values);
+
+                            const label = ['Altitude', 'Body Tempertature', 'Environemnt Tempertature', 'Heart Rate','Humidity','Speed'];
+
+                            const outputElement = document.getElementById('output');
+
+                            for (let i = 0; i < label.length; i++) {
+                                outputElement.innerHTML += label[i] +" "+ values[i]+'<br>';
+                            }
+
+                        } catch (error) {
+                            console.log(error);
+                        }
+                    }
+
+                    fetchsum();
+
                     async function fetchData() {
                         const url = 'http://167.71.198.111:5000/{{ value }}';
                         const response = await fetch(url);
@@ -513,6 +438,7 @@
 
                     document.addEventListener('DOMContentLoaded', async function () {
                         await fetchData();
+                        await fetchDatax();
                     });
                 </script>
 

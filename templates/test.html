@@ -1,0 +1,24 @@
+<html>
+
+<head></head>
+
+<body>
+    <script>
+        async function fetchData() {
+            const url = 'http://167.71.198.111:5000/onlysummary/769246233/20230630/-NZ9yhXn5LvvNGsRiCOb';
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const values = [data.alt, data.bdyTemp, data.dst, data.endAd, data.envtemp, data.hrtRate, data.hum, data.spd];
+                console.log(values);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchData();
+    </script>
+</body>
+
+</html>

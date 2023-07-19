@@ -153,9 +153,9 @@ def retrieve_only_summary(db,table, id, date, session):
   return result_dict
 
  # Update user data in Firebase
-def update_user_data(db,request):
+def update_user_data(db,request,id):
   table = 'users'  # Firebase table name
-  id = '715843108'  # User ID from the form or authentication system
+  #id = '715843108'  # User ID from the form or authentication system
 
   # Get the field values from the form
   name = request.values.get('name')
@@ -194,7 +194,42 @@ def delete(db,request):
      
   return 'deleted successfully'
  
+#function for retrive previous summary
+def get_pre_summary(db, id, date,session):
    
+  date_node = db.child("history").child(id).child(date).get()
+  session_keys = list(date_node.val().keys())
+  current_index = session_keys.index(session)
+
+  
+  if current_index > 0:
+    previous_session_key = session_keys[current_index - 1]
+    # Access the previous session node
+    previous_session_node = db.child("history").child(id).child(date).child(
+      previous_session_key).get()
+
+    # Get the dictionary representation of the previous session node
+    previous_session_data = previous_session_node.val()
+
+     
+    if "alt" in previous_session_data:
+      
+      
+      alt_index = list(previous_session_data.keys()).index("alt")
+      
+      data_after_alt = {
+        k: v
+        for k, v in list(previous_session_data.items())[alt_index:]
+        if k not in ["strt", "stp", "strAd", "endAd"]
+      }
+       
+      return data_after_alt
+    else:
+ 
+      return None
+  else:
+     
+    return None  
 
 def summarizer(db,userid,day_id,ses_id):
    #hrtRate=heart_rate(db,userid,day_id,ses_id)

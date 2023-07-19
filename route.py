@@ -44,8 +44,9 @@ def symbol():
 
 @app.route('/history', methods=['POST'])
 def myth():
-    #ss_date = str(request.form.get('button'))
-    #app.config['day_id']=ss_date
+    ss_date = str(request.form.get('date'))
+    app.config['day_id']=ss_date
+    print(ss_date)
     test3=app.config['userid']+'/'+app.config['day_id']
     #print(test['alt'])
     return render_template('history.html', value=test3)
@@ -55,7 +56,13 @@ def myth():
 def day():
     test1=app.config['userid']
     #print(test['alt'])
-    return render_template('Calendar.html', value=test1)
+    return render_template('overveiw.html', value=test1)
+
+@app.route('/calendar')
+def day1():
+    test1=app.config['userid']
+    #print(test['alt'])
+    return render_template('date.html', value=test1)
 
 @app.route('/session', methods=['POST'])
 def session():
@@ -203,13 +210,14 @@ def retrieve_only_summary(user,date,session):
  
 @app.route('/update', methods=['POST'])
 def update_user_data():
-    dbf.update_user_data(db,request)
+    id = app.config['userid']
+    dbf.update_user_data(db,request,id)
     return f"OK"
 
 @app.route('/profile')
 def user_data_form():
     table = 'users'  # Firebase table name
-    id = '715843108'  # User ID from the form or authentication system
+    id = app.config['userid']  # User ID from the form or authentication system
 
     #Retrieve user data from Firebase
     users = db.child(table).child(id).get()
@@ -220,7 +228,7 @@ def user_data_form():
 @app.route('/settings')
 def settings():
     table = 'users'  # Firebase table name
-    id = '715843108'  # User ID from the form or authentication system
+    id = app.config['userid']   
 
     #Retrieve user data from Firebase
     users = db.child(table).child(id).get()
@@ -232,6 +240,12 @@ def settings():
 def delete_data():
     dbf.delete(db,request)
     return f"OK"
+
+#feed json output on function to retrive previous summary (func 6)
+@app.route('/presummary/<user>/<date>/<session>')
+def retrieve_pre_summary(user,date,session):
+    query = dbf.get_pre_summary(db,user,date,session)
+    return jsonify(query)
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0', port=5000)

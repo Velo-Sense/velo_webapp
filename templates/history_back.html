@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/style.css">
     <!-- Demo CSS -->
     <link rel="stylesheet" href="http://167.71.198.111:5000/static/css/demo.css">
-
 </head>
 
 <body>
@@ -22,8 +21,10 @@
         <div class="dashboard-center-container">
 
             <div class="container dashboard-shadow-container">
-                <div class="row"><!--Main container-->
-                    <div class="col-md-2"><!--menu section-->
+                <div class="row">
+                    <!--Main container-->
+                    <div class="col-md-2">
+                        <!--menu section-->
                         <ul class="nav flex-column">
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="#"><i
@@ -31,41 +32,33 @@
                                 <!--Use proper awsome font as icon/refer orignal dashboard-->
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="http://167.71.198.111:5000/calendar"style="color: #11009e;"><i class="fa fa-calendar fa-3x"></i></a>
+                                <a class="nav-link" href="#"><i class="fa fa-calendar fa-3x"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="http://167.71.198.111:5000/settings"style="color: #11009e;"><i class="fa fa-cogs fa-3x"></i></a>
+                                <a class="nav-link" href="#"><i class="fa fa-cogs fa-3x"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="http://167.71.198.111:5000/profile"style="color: #11009e;"><i class="fa fa-user fa-3x"></i></a>
+                                <a class="nav-link disabled"><i class="fa fa-user fa-3x"></i></a>
                             </li>
                         </ul>
                     </div>
 
                     <!--History panel section-->
-
-
                     <div class="col-md-10">
-                        
-                        
+                        <h1>{{ value }}</h1>
                         <table class="separate" width="50%">
-                          
-                           
-                            <thead id="Topic"><h3><center>Past dates</center></h3></thead>
-                                <tbody id="dynamicContent"></tbody>
-                    
-                        </table>
+                            <thead id="Topic"><h3>History</h3></thead>
+                            <tbody id="dynamicContent"></tbody>
+                
+                    </table>
                     </div>
-
-
                 </div>
-
             </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
             async function fetchData() {
                 try {
                     const headingValue = "http://167.71.198.111:5000/{{ value }}";
@@ -77,9 +70,9 @@
             
                     for (const [key, value] of Object.entries(jsonData)) {//loop through the Json data object array
                         //console.log(key); console write for test purpose
-                        var formBody = document.createElement("dynamicContent");//add new element per each object in <tbody> tags
+                        var formBody = document.createElement("dynamicContent");//add new element per each object in <tbody> 
                         formBody.innerHTML = `
-                        <form class="form-signin" id="summaryForm" action="http://167.71.198.111:5000/history" method="post">
+                        <form class="form-signin" id="summaryForm" action="http://167.71.198.111:5000/session" method="post">
                             <input type="submit" name="button" class="new" value="${key}">
                         </form>
                         `;//Form with submit button define to write in each row
@@ -94,7 +87,6 @@
 
         });
     </script>
-
 </body>
 
 </html>

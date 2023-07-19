@@ -27,18 +27,18 @@
                         <!--menu section-->
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#"><i
+                                <a class="nav-link active" aria-current="page" href="http://167.71.198.111:5000/day" style="color: #11009e;"><i
                                         class="fa fa-tachometer fa-3x"></i></a>
                                 <!--Use proper awsome font as icon/refer orignal dashboard-->
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="Calender.html"><i class="fa fa-calendar fa-3x"></i></a>
+                                <a class="nav-link"  href="http://167.71.198.111:5000/calendar"style="color: #11009e;"><i class="fa fa-calendar fa-3x"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-cogs fa-3x"></i></a>
+                                <a class="nav-link"  href="http://167.71.198.111:5000/settings"style="color: #11009e;"><i class="fa fa-cogs fa-3x"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="profile.html"><i class="fa fa-user fa-3x"></i></a>
+                                <a class="nav-link" href="http://167.71.198.111:5000/profile"style="color: #11009e;"><i class="fa fa-user fa-3x"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -53,14 +53,14 @@
                                 <li><b>Phone No : </b><input type="tel" id="phone" name="phonenum"
                                         value="{{ user_data.phone }}" size="25">
                                 </li><br>
-                                <lable for><b>Date Of Birth : </b><input type="date" id="DOB" name="DOB"
-                                        value="{{ user_data.dob }}" size="25"></li><br>
+                                <li><b>Date of birth : </b><input type="text" id="DOB" name="DOB" value="{{ user_data.dob }}"
+                                    size="25"><br></li><br>
                                     <li><b>Email : </b><input type="email" id="email" name="email"
                                             value="{{ user_data.email }}" size="25"></li>
                             </ul>
                             <div style=padding-left:15pc;>
                                 <input type="submit" value="Save"
-                                    style="padding-left:20px;padding-right:20px;background-color:#428bca;border-radius:10px;"
+                                    style="padding-left:20px;padding-right:20px;background-color:#11009e;color:white;border-radius:10px;"
                                     onclick="submitForm()">
                         </form>
                         <script>
